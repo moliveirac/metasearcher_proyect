@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+<div class="container-fluid">
+    <h2 class="text-center">Create account</h2>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% crispy form %}
+        <button type="submit" class="btn btn-primary w-100 py-2">Create user</button>
+    </form>
+</div>
+{% endblock %}

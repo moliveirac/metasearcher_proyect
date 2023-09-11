@@ -1,0 +1,13 @@
+<div class="modal-header">
+    <h1 class="modal-title fs-5" id="exampleModalLabel">Do you want to stay up-to-date with this query?</h1>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body" id="spinner-id">
+    <strong>Query:</strong> {{ query }}<br>
+    <strong>From:</strong> {{ database }}<br>
+    <strong>Last result:</strong> {{ result_name }}
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    {% if result_id != "" %}<a target="_blank" class="btn btn-primary" href="{% url 'releases_notifier:save_query' %}?query={{ query }}&source={{ database }}&id={{ id }}" role="button">Save query</a>{% endif %}
+</div>

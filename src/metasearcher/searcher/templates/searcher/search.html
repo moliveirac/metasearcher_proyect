@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+    <div class="container mt-5">
+        <h1>Simple scientific searcher</h1>
+        <form action="{% url 'searcher:search' %}" method="get">
+            <div class="row">
+                {% crispy form %}
+                <div class="col-auto">
+                    <input value="Search" label="Search" role="button" type="submit" class="btn btn-primary">
+                </div>
+            </div>
+            
+        </form>
+    </div>
+{% endblock %}

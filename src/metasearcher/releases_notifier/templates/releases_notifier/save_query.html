@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex-container mt-5 mb-5">
+    <h2 class="text-center">{{ message }}</h2>
+    <div class="text-center">
+        <a class="btn btn-primary" href="{% url 'releases_notifier:index' %}">List saved queries</a>
+    </div>
+</div>
+{% endblock %}

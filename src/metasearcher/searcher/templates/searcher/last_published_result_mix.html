@@ -1,0 +1,14 @@
+<div class="modal-header">
+    <h1 class="modal-title fs-5" id="exampleModalLabel">Do you want to stay up-to-date with both of this queries?</h1>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body" id="spinner-id">
+    <strong>Query from Scopus:</strong> {{ query }} <br>
+    <strong>Last result:</strong> {{ scopus_result_name }} <br>
+    <strong>Query from Web of Science:</strong> {{ auxquery }} <br>
+    <strong>Last result:</strong> {{ wos_result_name }}
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    {% if result_id != "" %}<a target="_blank" class="btn btn-primary" href="{% url 'releases_notifier:save_query' %}?query={{ query }}&id={{ scopus_id }}&auxquery={{ auxquery }}&auxid={{ wos_id }}" role="button">Save queries</a>{% endif %}
+</div>

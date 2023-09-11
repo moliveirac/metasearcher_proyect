@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container form-group my-4">
+    <h2 class="text-center">{{ query }}</h2>
+</div>
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        {% if fail %}
+        <div class="alert alert-danger" role="alert">
+            <strong>There is an error:</strong> {{ error_message }}
+        </div>
+        {% elif results.empty != 0 %}
+        <h2>
+            We are sorry, there are no results related with your search...
+        </h2>
+        {% else %}
+        <h2>
+            Showing search results:
+        </h2>
+        <h4>
+            Total results: {{ total_results }}
+        </h4>
+        
+            {% for index, row in results.iterrows %}
+                <h3><a href="{% url 'searcher:detail_view' %}?id={{ row.ids }}&origin={{ row.origin }}">
+                    {{ row.title }}
+                </a></h3>
+                
+                By: {{ row.author }}. <br>
+                {{ row.type }} published in <i>{{ row.publisher }}</i> on {{ row.date }}. <br>
+                {% if row.cited_by == row.cited_by %}
+                    Cited {{ row.cited_by }} times.
+                {% endif %}
+                {% if row.volume == row.volume and row.volume != '<NA>' %}
+                    Volume {{ row.volume }}. 
+                {% endif %}
+                {% if row.page_range != None and row.page_range == row.page_range %}
+                    Page range [{{ row.page_range }}]
+                {% endif %}       
+        
+            {% endfor %}
+
+            <div class="my-5 d-grid gap-2 col-6 mx-auto">
+                {% if cursor != None %}
+                <button
+                    id = "makeRequestObject"
+                    class="btn btn-info"
+                    onclick="makeRequest('{% url 'searcher:adv_search_results' %}?cursor={{ cursor }}&query={{ query }}&searcher={{ searcher.searcher.value }}&order_type={{ order.order_type.value }}')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"></path>
+                        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"></path>
+                    </svg>
+                    Load more documents
+                </button>
+                {% else %}
+                <p class="mb-0">Seems that you reached the final...</p>
+                {% endif %}
+            </div>
+        {% endif %}
+        
+
+        <!-- <p>
+            <p id = "makeRequestObject"></p>
+        </p>
+        <script>
+            window.addEventListener('scroll', function() {
+                if (!loading && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                    loading = true; // Establecer la bandera de carga en true
+                    makeRequest('{% url 'searcher:adv_search_results' %}?cursor={{ cursor }}');
+                }
+            });
+        </script> -->
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load dict_aux %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="mt-4">
+        <h1>
+            {% getAttribFromObjListIf doc.static_data.summary.titles.title 'content' 'type' 'item' %}
+        </h1>
+    </div>
+
+    <!-- {% if doc.links.record == None and doc.item == None and doc.authors == None %}
+    <div class="alert alert-danger" role="alert">
+        Something went wrong. Review parameters given.
+    </div>
+    {% endif %} -->
+    <div>
+        Link to <a target="_blank" href="{{ doc.links.record }}">publishing house</a>.
+    </div>
+    {% if doc.static_data.fullrecord_metadata.abstracts %}
+    <div>
+        <h2>
+            Brief description
+        </h2>
+        <p>
+            {% if doc.static_data.fullrecord_metadata.abstracts.count > 1 %}
+            {% getAttribFromObjList doc.static_data.fullrecord_metadata.abstracts.abstract 'abstract_text' 'p' %}
+            {% else %}
+            {{ doc.static_data.fullrecord_metadata.abstracts.abstract.abstract_text.p }}
+            {% endif %}
+        </p>
+    </div>
+    {% endif %}
+    {% if doc.static_data.summary.names.count and doc.static_data.summary.names.count != 0 %}
+    <div>
+        <h2>
+            Authors
+        </h2>
+        {% for auth_obj in doc.static_data.summary.names.name %}
+            <h3>
+                {{ auth_obj.display_name }}
+            </h3>
+        {% endfor %}
+        <p>
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

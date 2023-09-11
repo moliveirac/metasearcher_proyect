@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="flex-container my-5 mx-3">
+    <h2 class="text-center">Saved querys</h2>
+    <div class="mt-5 ">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Query</th>
+                    <th scope="col">From</th>
+                    <th scope="col">See results</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for qs_object in objects_list %}
+                <tr>
+                    <th scope="row">{{ qs_object.query }}</th>
+                    <td>{{ qs_object.source }}</td>
+                    <td><a target="_blank" href="{% url 'releases_notifier:saved_query_results' %}?query={{ qs_object.query }}&source={{ qs_object.source }}">Results</a></td>
+                    <td><a target="_blank" href="#exampleModal" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-del-href="{% url 'releases_notifier:delete_query' %}?query={{ qs_object.pk }}">Delete query</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Do you want to stay up-to-date with this query?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Once removed you should do the same search and add the query again.<br>
+                    If you are agree with that press <i>Delete</i>.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger" href="" role="button">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/snippets.js' %}"></script>
+{% endblock %}

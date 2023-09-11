@@ -1,0 +1,7 @@
+__pycache__
+dump.json
+data_lite.json
+src/metasearcher/data
+src/metasearcher/logs
+src/metasearcher/*/migrations
+mix-testing

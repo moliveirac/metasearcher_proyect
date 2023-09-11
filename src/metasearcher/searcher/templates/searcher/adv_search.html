@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+    <div class="container form-group my-4">
+        <form action="{% url 'searcher:adv_search' %}" method="post" id="form">
+            {% csrf_token %}
+            {{ formset.management_form|crispy }}
+            <div id="form_set" class="container">
+                {% crispy first_form %}
+                {% for form in formset %}
+                    <div class="formset" id="{{ form.prefix }}">
+                        <hr class="between_forms">
+                        {% crispy form form.helper %}
+    
+                        <!-- <input type="button" value="Delete" id="id_custom-{{ form.prefix }}-del-btn" class="btn btn-danger del-btn" name="custom-{{ form.prefix }}-del-btn" onclick="delete_form(this)"> -->
+                    </div>
+                {% endfor %}   
+    
+                
+            </div>
+            <div class="btn-group" role="group">
+                <input type="button" value="Add More" id="add_more" class="btn btn-secondary">
+                <input type="submit" value="Search" class="btn btn-primary">
+            </div>
+        </form>
+        <div id="empty-form" class="hidden">
+            <hr class="between_forms">
+            {% crispy formset.empty_form %}
+        </div>
+    </div>
+    
+    <script src="{% static 'js/dynamic_form_elem.js' %}"></script>
+
+{% endblock %}

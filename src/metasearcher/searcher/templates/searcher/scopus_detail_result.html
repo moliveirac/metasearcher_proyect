@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load dict_aux %}
+
+{% block content %}
+{% if doc != None %}
+<div class="container-fluid">
+    <div class="mt-4">
+        <h1>
+            {% dictKeyLookup doc.coredata 'dc:title' %}
+        </h1>
+    </div>
+    {% transformLinks doc.coredata.link as links %}
+    {% dictKeyLookup doc.coredata 'dc:description' as description %}
+
+    {% if links.scopus == None and doc.item == None and doc.authors == None %}
+    <div class="alert alert-danger" role="alert">
+        Something went wrong. Review parameters given.
+    </div>
+    {% endif %}
+    <div>
+        Link to <a target="_blank" href="{{ links.scopus }}">publishing house</a>.
+    </div>
+    {% if description != "" %}
+    <div>
+        <h2>
+            Brief description
+        </h2>
+        <p>
+            {{ description }}
+        </p>
+    </div>
+    {% endif %}
+    {% if doc.authors != None %}
+    <div>
+        <h2>
+            Authors
+        </h2>
+        {% for auth in doc.authors.author %}
+            <h3>
+                {% dictKeyLookup auth 'ce:indexed-name' %}
+            </h3>
+            <div>
+                Link to
+                <a target="_blank" href="https://www.scopus.com/authid/detail.uri?authorId={% dictKeyLookup auth '@auid' %}">
+                    Scopus page
+                </a>
+            </div>
+        {% endfor %}
+        <p>
+        </p>
+    </div>
+    {% endif %}  
+</div>
+{% else %}
+<div class="container-fluid py-3">
+    <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">Something failed</h4>
+        <p>We're sorry! Something failed while processing your request. Please try again later.</p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

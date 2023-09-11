@@ -1,0 +1,38 @@
+{% load dict_aux %}
+
+{% for index, row in results.iterrows %}
+    <h3><a href="{% url 'searcher:detail_view' %}?id={{ row.ids }}&origin={{ row.origin }}">
+        {{ row.title }}
+    </a></h3>
+    
+    <i>#{% summOnTemplate index next_value %}</i>
+    {% if row.author != "" and row.author == row.author %}By: {{ row.author }} {% endif %}<br>
+    {{ row.type }} published in <i>{{ row.publisher }}</i> on {{ row.date }}. <br>
+    {% if row.cited_by == row.cited_by %}
+        Cited {{ row.cited_by }} times.
+    {% endif %}
+    {% if row.volume == row.volume %}
+        Volume {{ row.volume }}. 
+    {% endif %}
+    {% if row.page_range != None %}
+        Page range [{{ row.page_range }}]
+    {% endif %}        
+
+{% endfor %}
+
+<div class="my-5 d-grid gap-2 col-6 mx-auto">
+    {% if cursor != None %}
+    <button
+        id = "makeRequestObject"
+        class="btn btn-info"
+        onclick="makeRequest('{% url 'searcher:adv_search_results' %}?cursor={{ cursor }}&query={{ query }}&searcher={{ searcher }}&order_type={{ order_type }}&next={% summOnTemplate 25 next_value %}')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"></path>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"></path>
+        </svg>
+        Load more documents
+    </button>
+    {% else %}
+    <p class="mb-0">Seems that you reached the end...</p>
+    {% endif %}
+</div>

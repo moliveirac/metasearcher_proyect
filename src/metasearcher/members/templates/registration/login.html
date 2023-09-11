@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+<link rel="stylesheet" href="{% static 'css/sign-in.css' %}">
+<div class="form-signin w-100 m-auto">
+    <h2 class="text-center">Login</h2>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% crispy form %}
+        <input type="hidden" name="next" value="{{ request.path }}">
+        <button type="submit" class="btn btn-primary w-100 py-2">Log in</button>
+    </form>
+    <div class="text-center mt-2">
+        or
+        <br>
+        <a href="{% url 'members:create' %}" class="btn w-100 mt-2">Create an account</a>
+    </div>
+</div>
+{% endblock %}
